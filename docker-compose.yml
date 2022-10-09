@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    command: "poetry run gunicorn quickcontact:application -b=0.0.0.0:8000 -w=4 -t=10"
+    container_name: "Quick-Contact"
+    image: qucikcontact:api
+    ports:
+      - "58585:8000"
+    restart: always
+    volumes:
+      - .:/quick_contact

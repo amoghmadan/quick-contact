@@ -1,0 +1,18 @@
+[Unit]
+Description=Quick Connect Service
+Requires=quickconnect.socket
+After=network.target
+
+[Service]
+Restart=always
+Type=notify
+WorkingDirectory=<PATH_TO_PROJECT>/src
+ExecStart=poetry run gunicorn qucikconnect:application -b=0.0.0.0:8000 -w=4 -t=10 --access-logfile=<PATH_TO_PROJECT>/logs/access.log
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
